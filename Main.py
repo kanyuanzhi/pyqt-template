@@ -4,7 +4,8 @@ from PyQt5.QtCore import QThread, pyqtSignal
 from PyQt5.QtWidgets import QApplication, QMainWindow
 import multiprocessing
 
-from addUser import AddUserWindow
+from AddUser import AddUserWindow
+from UpdatePassword import UpdatePasswordWindow
 
 from MainWindow import Ui_MainWindow
 
@@ -23,14 +24,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()
         self.setupUi(self)
-        # self.queue = multiprocessing.Manager().Queue()
+        self.username = ""
         self.add_user_window = AddUserWindow()
+        self.update_password_window = UpdatePasswordWindow()
         self.queue = queue.Queue()
         self.processA_number = 100
         self.threadA = None
         self.threadB = None
         self.pushButton.clicked.connect(self.processA_th)
         self.actionAddUser.triggered.connect(self.add_user_window.show)
+        self.actionUpdatePassword.triggered.connect(self.update_password_window.show)
 
     def processA_th(self):
         self.processB_th()
@@ -50,15 +53,21 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.threadB.trigger_loops.connect(self.display_in_progress_bar)
 
     def display_in_value(self, value):
-        self.textBrowser_1.setText(value)
+        self.textBrowserCurrentResult.setText(value)
 
     def display_in_total(self, total):
-        self.textBrowser_2.setText(total)
+        self.textBrowserTotalResult.setText(total)
 
     def display_in_progress_bar(self, loops):
         progress = int(loops / self.processA_number * 100)
         self.progressBar.setValue(progress)
         self.label_progress.setText(str(progress) + "%")
+
+    def set_username(self, username):
+        self.username = username
+        self.label_current_user.setText(username)
+        self.update_password_window.set_username(self.username)
+        self.update_password_window.label_username.setText(username)
 
 
 class ThreadA(QThread):

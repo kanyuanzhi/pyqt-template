@@ -50,9 +50,9 @@
    <property name="geometry">
     <rect>
      <x>100</x>
-     <y>130</y>
+     <y>150</y>
      <width>228</width>
-     <height>51</height>
+     <height>41</height>
     </rect>
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout">

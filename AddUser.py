@@ -13,7 +13,7 @@ class AddUserWindow(QMainWindow, Ui_AddUserWindow):
         self.setupUi(self)
         self.username = ""
         self.password = ""
-        self.confirmPassword = ""
+        self.confirm_password = ""
         self.conn = connect_database()
         self.cancelButton.clicked.connect(self.close)
         self.confirmButton.clicked.connect(self.add_user)
@@ -21,11 +21,11 @@ class AddUserWindow(QMainWindow, Ui_AddUserWindow):
     def add_user(self):
         self.username = self.lineEditUsername.text().replace(" ", "")  # 去掉空格
         self.password = self.lineEditPassword.text().replace(" ", "")
-        self.confirmPassword = self.lineEditConfirmPassword.text().replace(" ", "")
+        self.confirm_password = self.lineEditConfirmPassword.text().replace(" ", "")
         if self.password == "":
             QMessageBox.critical(self, "添加错误", "密码不能为空！")
             return
-        elif self.password != self.confirmPassword:
+        elif self.password != self.confirm_password:
             QMessageBox.critical(self, "添加错误", "两次输入密码不一致！")
             return
         elif self.username == "":
