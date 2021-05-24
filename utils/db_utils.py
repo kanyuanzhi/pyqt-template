@@ -20,7 +20,27 @@ def authenticate(conn, username, password):
     return False, "用户不存在！"
 
 
+def is_username_exist(conn, username):
+    sql_str = "SELECT username FROM user WHERE username='{}'".format(username)
+    cursor = conn.execute(sql_str)
+    row = cursor.fetchone()
+    if row is None:
+        # 用户名不存在
+        cursor.close()
+        return False
+    else:
+        # 用户名存在
+        cursor.close()
+        return True
+
+
 def update(conn, column, column_value, key, key_value):
     sql_str = "UPDATE user SET {}='{}' WHERE {}='{}'".format(column, column_value, key, key_value)
+    conn.execute(sql_str)
+    conn.commit()
+
+
+def insert_user(conn, username, password):
+    sql_str = "INSERT INTO user (username, password) VALUES ('{}', '{}')".format(username, password)
     conn.execute(sql_str)
     conn.commit()

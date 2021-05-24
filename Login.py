@@ -1,13 +1,11 @@
 import sys
 
-from PyQt5.QtCore import QThread, pyqtSignal, QCoreApplication
 from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox
 
 from Main import MainWindow
-from AddUser import AddUserWindow
 
-import db_utils
-from window_utils import quit_window
+from utils import db_utils
+from utils.window_utils import quit_window
 
 from LoginWindow import Ui_LoginWindow
 

@@ -2,7 +2,8 @@ import sys
 
 from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox
 
-from db_utils import connect_database
+from utils import db_utils
+from utils.db_utils import connect_database
 
 from AddUserWindow import Ui_AddUserWindow
 
@@ -32,20 +33,14 @@ class AddUserWindow(QMainWindow, Ui_AddUserWindow):
             QMessageBox.critical(self, "添加错误", "用户名不能为空！")
             return
         else:
-            sql = "SELECT username FROM user WHERE username='{}'".format(self.username)
-            cursor = self.conn.execute(sql)
-            for row in cursor:
+            if db_utils.is_username_exist(self.conn, self.username):
                 QMessageBox.critical(self, "添加错误", "用户名已被注册！")
-                cursor.close()
                 return
-            cursor.close()
-            sql_add = "INSERT INTO user (username, password) VALUES ('{}','{}')".format(self.username, self.password)
-            self.conn.execute(sql_add)
-            self.conn.commit()
-            self.conn.close()
-            QMessageBox.information(self, "添加成功", "添加用户成功！")
-            self.close()
-            return
+            else:
+                db_utils.insert_user(self.conn, self.username, self.password)
+                QMessageBox.information(self, "添加成功", "添加用户成功！")
+                self.close()
+                return
 
 
 if __name__ == "__main__":

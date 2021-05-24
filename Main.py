@@ -9,7 +9,7 @@ from UpdatePassword import UpdatePasswordWindow
 
 from MainWindow import Ui_MainWindow
 
-from functionA import main
+from functions.functionA import main
 import queue
 
 

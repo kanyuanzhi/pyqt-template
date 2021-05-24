@@ -2,7 +2,7 @@ import sys
 
 from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox
 
-import db_utils
+from utils import db_utils
 
 from UpdatePasswordWindow import Ui_UpdatePasswordWindow
 
