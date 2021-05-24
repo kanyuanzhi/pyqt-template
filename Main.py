@@ -12,6 +12,8 @@ from MainWindow import Ui_MainWindow
 from functions.functionA import main
 import queue
 
+from DBDriver import DBDriver
+
 
 class MainWindow(QMainWindow, Ui_MainWindow):
     """
@@ -25,6 +27,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         super(MainWindow, self).__init__()
         self.setupUi(self)
         self.username = ""
+        self.db_driver = None
         self.add_user_window = AddUserWindow()
         self.update_password_window = UpdatePasswordWindow()
         self.queue = queue.Queue()
@@ -68,6 +71,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.label_current_user.setText(username)
         self.update_password_window.set_username(self.username)
         self.update_password_window.label_username.setText(username)
+
+    def set_db_driver(self, db_driver):
+        self.db_driver = db_driver
+        self.add_user_window.set_db_driver(db_driver)
+        self.update_password_window.set_db_driver(db_driver)
 
 
 class ThreadA(QThread):
@@ -122,5 +130,7 @@ class ThreadB(QThread):
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     main_window = MainWindow()
+    db_driver = DBDriver("project")
+    main_window.set_db_driver(db_driver)
     main_window.show()
     sys.exit(app.exec_())

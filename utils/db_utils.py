@@ -1,11 +1,3 @@
-import sqlite3
-
-
-def connect_database():
-    conn = sqlite3.connect('project.sqlite')
-    return conn
-
-
 def authenticate(conn, username, password):
     sql_str = "SELECT password FROM user WHERE username='{}'".format(username)
     cursor = conn.execute(sql_str)

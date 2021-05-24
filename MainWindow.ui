@@ -77,7 +77,7 @@
        <x>80</x>
        <y>50</y>
        <width>231</width>
-       <height>71</height>
+       <height>51</height>
       </rect>
      </property>
      <layout class="QFormLayout" name="formLayout">
@@ -109,7 +109,7 @@
        </widget>
       </item>
       <item row="1" column="1">
-       <widget class="QTextBrowser" name="textBrowserTotalResult">
+       <widget class="QTextBrowser" name="textBrowser_2">
         <property name="verticalScrollBarPolicy">
          <enum>Qt::ScrollBarAlwaysOff</enum>
         </property>

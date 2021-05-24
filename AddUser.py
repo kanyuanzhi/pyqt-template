@@ -2,10 +2,9 @@ import sys
 
 from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox
 
-from utils import db_utils
-from utils.db_utils import connect_database
-
 from AddUserWindow import Ui_AddUserWindow
+
+from DBDriver import DBDriver
 
 
 class AddUserWindow(QMainWindow, Ui_AddUserWindow):
@@ -15,7 +14,7 @@ class AddUserWindow(QMainWindow, Ui_AddUserWindow):
         self.username = ""
         self.password = ""
         self.confirm_password = ""
-        self.conn = connect_database()
+        self.db_driver = None
         self.cancelButton.clicked.connect(self.close)
         self.confirmButton.clicked.connect(self.add_user)
 
@@ -33,18 +32,23 @@ class AddUserWindow(QMainWindow, Ui_AddUserWindow):
             QMessageBox.critical(self, "添加错误", "用户名不能为空！")
             return
         else:
-            if db_utils.is_username_exist(self.conn, self.username):
+            if self.db_driver.is_username_exist(self.username):
                 QMessageBox.critical(self, "添加错误", "用户名已被注册！")
                 return
             else:
-                db_utils.insert_user(self.conn, self.username, self.password)
+                self.db_driver.insert_user(self.username, self.password)
                 QMessageBox.information(self, "添加成功", "添加用户成功！")
                 self.close()
                 return
+
+    def set_db_driver(self, db_driver):
+        self.db_driver = db_driver
 
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     add_user_window = AddUserWindow()
+    db_driver = DBDriver("project")
+    add_user_window.set_db_driver(db_driver)
     add_user_window.show()
     sys.exit(app.exec_())
