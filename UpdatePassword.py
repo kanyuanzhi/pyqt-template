@@ -38,6 +38,7 @@ class UpdatePasswordWindow(QMainWindow, Ui_UpdatePasswordWindow):
 
     def set_username(self, username):
         self.username = username
+        self.label_username.setText(username)
 
     def set_db_driver(self, db_driver):
         self.db_driver = db_driver
