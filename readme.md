@@ -9,10 +9,10 @@ pip install -r requirements.txt
 ```
 ## 运行
 
-###从登录界面启动
+### 从登录界面启动
 
 `python Login.py`
 
-###直接进入主界面
+### 直接进入主界面
 
 `python Main.py`
