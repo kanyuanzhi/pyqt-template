@@ -79,3 +79,16 @@ class DBDriver:
 
     def update_all_settings(self, settings):
         db_utils.update_all_settings(self.conn, settings)
+
+    def is_setting_name_exist(self, name):
+        return db_utils.is_setting_name_exist(self.conn, name)
+
+    def insert_setting(self, name):
+        default_values = db_utils.insert_setting(self.conn, name)
+        return default_values
+
+    def update_setting_name(self, new_name, current_name):
+        db_utils.update_setting_name(self.conn, new_name, current_name)
+
+    def remove_setting(self, name):
+        db_utils.remove_setting(self.conn, name)

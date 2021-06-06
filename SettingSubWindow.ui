@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>801</width>
+    <width>797</width>
     <height>571</height>
    </rect>
   </property>
@@ -19,7 +19,7 @@
      <x>20</x>
      <y>90</y>
      <width>251</width>
-     <height>331</height>
+     <height>381</height>
     </rect>
    </property>
    <property name="title">
@@ -175,7 +175,7 @@
      <x>280</x>
      <y>10</y>
      <width>501</width>
-     <height>561</height>
+     <height>461</height>
     </rect>
    </property>
    <property name="title">
@@ -203,68 +203,144 @@
    <widget class="QComboBox" name="comboBox">
     <property name="geometry">
      <rect>
-      <x>70</x>
+      <x>60</x>
       <y>30</y>
-      <width>111</width>
+      <width>131</width>
       <height>26</height>
      </rect>
     </property>
    </widget>
   </widget>
-  <widget class="QWidget" name="horizontalLayoutWidget">
+  <widget class="QGroupBox" name="groupBox_6">
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>430</y>
-     <width>251</width>
-     <height>141</height>
+     <y>470</y>
+     <width>761</width>
+     <height>91</height>
     </rect>
    </property>
-   <layout class="QVBoxLayout" name="verticalLayout">
-    <item>
-     <layout class="QHBoxLayout" name="horizontalLayout">
-      <item>
-       <widget class="QPushButton" name="pushButtonSaveCurrent">
-        <property name="text">
-         <string>保存当前修改</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="pushButtoSaveAll">
-        <property name="text">
-         <string>保存所有修改</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </item>
-    <item>
-     <layout class="QHBoxLayout" name="horizontalLayout_2">
-      <item>
-       <widget class="QPushButton" name="pushButtonCancelCurrent">
-        <property name="text">
-         <string>取消当前修改</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="pushButtonCancelAll">
-        <property name="text">
-         <string>取消所有修改</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </item>
-    <item>
-     <widget class="QPushButton" name="pushButton">
-      <property name="text">
-       <string>添加新类型</string>
-      </property>
-     </widget>
-    </item>
-   </layout>
+   <property name="title">
+    <string>操作区</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+   <widget class="QWidget" name="horizontalLayoutWidget_5">
+    <property name="geometry">
+     <rect>
+      <x>-240</x>
+      <y>360</y>
+      <width>595</width>
+      <height>80</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout_4">
+     <item>
+      <widget class="QPushButton" name="pushButtonSaveCurrent_2">
+       <property name="text">
+        <string>保存当前修改</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButtoSaveAll_2">
+       <property name="text">
+        <string>保存所有修改</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButtonCancelCurrent_2">
+       <property name="text">
+        <string>取消当前修改</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButtonCancelAll_2">
+       <property name="text">
+        <string>取消所有修改</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton_2">
+       <property name="text">
+        <string>添加新类型</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="gridLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>20</y>
+      <width>761</width>
+      <height>66</height>
+     </rect>
+    </property>
+    <layout class="QGridLayout" name="gridLayout">
+     <item row="0" column="0">
+      <widget class="QPushButton" name="pushButtonSaveCurrent">
+       <property name="text">
+        <string>保存当前修改</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="3">
+      <widget class="QPushButton" name="pushButtonCancelAll">
+       <property name="text">
+        <string>取消所有修改</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QPushButton" name="pushButtoSaveAll">
+       <property name="text">
+        <string>保存所有修改</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="2">
+      <widget class="QPushButton" name="pushButtonCancelCurrent">
+       <property name="text">
+        <string>取消当前修改</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QPushButton" name="pushButtonUpdateName">
+       <property name="text">
+        <string>修改当前类型名称</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QPushButton" name="pushButtonAddSetting">
+       <property name="text">
+        <string>添加新类型</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="2">
+      <widget class="QPushButton" name="pushButtonDeleteSetting">
+       <property name="text">
+        <string>删除当前类型</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="3">
+      <widget class="QPushButton" name="pushButtonImportSettings">
+       <property name="text">
+        <string>导出参数设置</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
   </widget>
  </widget>
  <resources/>

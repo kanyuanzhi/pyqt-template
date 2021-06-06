@@ -97,12 +97,12 @@ def get_all_settings(conn):
         settings：所有参数设置
 
     """
-    keys = ["id", "name", "para1", "para2", "para3", "para4"]
-    sql_str = "SELECT id, name, para1, para2, para3, para4 FROM parameter_setting"
+    keys = ["name", "para1", "para2", "para3", "para4"]
+    sql_str = "SELECT name, para1, para2, para3, para4 FROM parameter_setting"
     cursor = conn.execute(sql_str)
     settings = {}
     for row in cursor:
-        settings[row[1]] = dict(zip(keys, row))
+        settings[row[0]] = dict(zip(keys, row))
     cursor.close()
     return settings
 
@@ -120,3 +120,38 @@ def update_all_settings(conn, settings):
             *setting)
         conn.execute(sql_str)
         conn.commit()
+
+
+def insert_setting(conn, name):
+    default_values = [0, 0.0, 1, 1]
+    sql_str = "INSERT INTO parameter_setting (name, para1, para2, para3, para4) VALUES ('{}', '{}', '{}', '{}', '{}')".format(
+        name, *default_values)
+    conn.execute(sql_str)
+    conn.commit()
+    return default_values
+
+
+def update_setting_name(conn, new_name, current_name):
+    sql_str = "UPDATE parameter_setting SET name='{}' WHERE name='{}'".format(new_name, current_name)
+    conn.execute(sql_str)
+    conn.commit()
+
+
+def remove_setting(conn, name):
+    sql_str = "DELETE FROM parameter_setting WHERE name='{}'".format(name)
+    conn.execute(sql_str)
+    conn.commit()
+
+
+def is_setting_name_exist(conn, name):
+    sql_str = "SELECT name FROM parameter_setting WHERE name='{}'".format(name)
+    cursor = conn.execute(sql_str)
+    row = cursor.fetchone()
+    if row is None:
+        # 参数类型名称不存在
+        cursor.close()
+        return False
+    else:
+        # 参数类型名称存在
+        cursor.close()
+        return True
