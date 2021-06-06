@@ -1,13 +1,10 @@
 import copy
 import json
-import multiprocessing
-import queue
 import sys
-import time
+
 from functools import wraps
 
-from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox, QWidget, QButtonGroup
-from PyQt5.QtCore import QThread, pyqtSignal
+from PyQt5.QtWidgets import QApplication, QMessageBox, QWidget, QButtonGroup
 
 from AddSetting import AddSettingWindow
 from SettingSubWindow import Ui_SettingSubWindow
@@ -88,7 +85,6 @@ class SettingSubWindow(QWidget, Ui_SettingSubWindow):
             para_name, para_value = para_changed_handle(self)
             name = self.comboBox.currentText()
             self.updated_settings[name][para_name] = para_value
-
         return wrapper
 
     @para_changed_wrapper

@@ -6,16 +6,24 @@ import time
 from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox, QWidget
 from PyQt5.QtCore import QThread, pyqtSignal
 
+from LoadSetting import LoadSettingWindow
 from RunningSubWindow import Ui_RunningSubWindow
 
 from mainProgram.functionA import main  # 示例主程序
 
 from DBDriver import DBDriver
 
+
 class RunningSubWindow(QWidget, Ui_RunningSubWindow):
     def __init__(self):
         super(RunningSubWindow, self).__init__()
         self.setupUi(self)
+
+        self.load_setting_window = LoadSettingWindow()
+        self.setting = {}  # 程序使用参数
+
+        self.load_setting_window.setting.connect(self.set_setting)
+
         self.db_driver = None  # 数据库实例，负责各种增删改查操作
         self.queue = queue.Queue()  # 队列，在进程之间传递数据
         self.process_pool_size = 10  # 进程池大小，即同时运行的进程个数
@@ -25,6 +33,7 @@ class RunningSubWindow(QWidget, Ui_RunningSubWindow):
         self.running_time_thread = None  # 耗时统计线程，用以统计显示进程池运行线程的运行时间
 
         self.pushButtonStart.clicked.connect(self.start)  # 程序开始运行按钮
+        self.pushButtonLoadSetting.clicked.connect(self.show_load_setting_window)
 
     def start(self):
         """
@@ -172,6 +181,15 @@ class RunningSubWindow(QWidget, Ui_RunningSubWindow):
 
         """
         self.db_driver = db_driver
+        self.load_setting_window.set_db_driver(db_driver)
+
+    def show_load_setting_window(self):
+        self.load_setting_window.init_data()
+        self.load_setting_window.show()
+
+    def set_setting(self, setting):
+        self.setting = setting
+        self.labelLoadedSetting.setText("已加载：{}".format(setting["name"]))
 
 
 class ProcessPoolThread(QThread):
