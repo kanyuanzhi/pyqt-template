@@ -82,3 +82,41 @@ def insert_user(conn, username, password):
     sql_str = "INSERT INTO user (username, password) VALUES ('{}', '{}')".format(username, password)
     conn.execute(sql_str)
     conn.commit()
+
+
+def get_all_settings(conn):
+    """
+    获取所有参数设置
+    id：参数类型id
+    name：参数类型名称
+    para1，2，3...：具体参数名称
+    Args:
+        conn: 数据库连接
+
+    Returns:
+        settings：所有参数设置
+
+    """
+    keys = ["id", "name", "para1", "para2", "para3", "para4"]
+    sql_str = "SELECT id, name, para1, para2, para3, para4 FROM parameter_setting"
+    cursor = conn.execute(sql_str)
+    settings = {}
+    for row in cursor:
+        settings[row[1]] = dict(zip(keys, row))
+    cursor.close()
+    return settings
+
+
+def update_one_setting(conn, setting):
+    sql_str = "UPDATE parameter_setting SET para1='{}', para2='{}', para3='{}',para4='{}' WHERE name='{}'".format(
+        *setting)
+    conn.execute(sql_str)
+    conn.commit()
+
+
+def update_all_settings(conn, settings):
+    for setting in settings:
+        sql_str = "UPDATE parameter_setting SET para1='{}', para2='{}', para3='{}', para4='{}' WHERE name='{}'".format(
+            *setting)
+        conn.execute(sql_str)
+        conn.commit()

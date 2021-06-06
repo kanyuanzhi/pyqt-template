@@ -70,3 +70,12 @@ class DBDriver:
 
         """
         db_utils.insert_user(self.conn, username, password)
+
+    def get_all_settings(self):
+        return db_utils.get_all_settings(self.conn)
+
+    def update_one_setting(self, setting):
+        db_utils.update_one_setting(self.conn, setting)
+
+    def update_all_settings(self, settings):
+        db_utils.update_all_settings(self.conn, settings)
