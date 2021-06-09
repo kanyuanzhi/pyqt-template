@@ -1,6 +1,7 @@
 import sys
 
 from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox
+from PyQt5.QtCore import pyqtSignal
 
 from UpdateSettingNameWindow import Ui_UpdateSettingNameWindow
 
@@ -8,26 +9,29 @@ from DBDriver import DBDriver
 
 
 class UpdateSettingNameWindow(QMainWindow, Ui_UpdateSettingNameWindow):
+    new_name = pyqtSignal(str)
+
     def __init__(self):
         super(UpdateSettingNameWindow, self).__init__()
         self.setupUi(self)
         self.db_driver = None
 
-        self.setting_sub_window = None
         self.current_name = ""
 
         self.pushButtonConfirm.clicked.connect(self.update_setting_name)
         self.pushButtonCancel.clicked.connect(self.close)
 
     def update_setting_name(self):
-        new_name = self.lineEditUpdatedName.text()
-        if self.db_driver.is_setting_name_exist(new_name):
+        new_name = self.lineEditUpdatedName.text().replace(" ", "")
+        if new_name == "":
+            QMessageBox.critical(self, "修改参数名称", "参数类型名称不能为空！")
+        elif self.db_driver.is_setting_name_exist(new_name):
             QMessageBox.critical(self, "修改参数名称", "该参数类型名称已存在！")
         else:
             pass
             self.db_driver.update_setting_name(new_name, self.current_name)
             QMessageBox.information(self, "修改参数名称", "参数名称已修改！")
-            self.setting_sub_window.update_setting_in_combo(new_name)
+            self.new_name.emit(new_name)
             self.close()
 
     def set_db_driver(self, db_driver):

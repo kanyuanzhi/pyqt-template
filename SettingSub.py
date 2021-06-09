@@ -19,15 +19,13 @@ class SettingSubWindow(QWidget, Ui_SettingSubWindow):
         super(SettingSubWindow, self).__init__()
         self.setupUi(self)
 
-        self.db_driver = DBDriver("project")  # 数据库实例，负责各种增删改查操作
+        self.db_driver = None
 
         self.add_setting_window = AddSettingWindow()
-        self.add_setting_window.set_db_driver(self.db_driver)
-        self.add_setting_window.setting_sub_window = self
+        self.add_setting_window.name_values.connect(self.append_setting_in_combo)
 
         self.update_setting_name_window = UpdateSettingNameWindow()
-        self.update_setting_name_window.set_db_driver(self.db_driver)
-        self.update_setting_name_window.setting_sub_window = self
+        self.update_setting_name_window.new_name.connect(self.update_setting_name_in_combo)
 
         self.original_settings = {}
         self.updated_settings = {}
@@ -41,15 +39,13 @@ class SettingSubWindow(QWidget, Ui_SettingSubWindow):
         self.buttonGroupPara4.addButton(self.InputPara4Algo2, 2)
         self.buttonGroupPara4.addButton(self.InputPara4Algo3, 3)
 
-        self.reset_settings()
-
         self.comboBox.activated.connect(self.combo_box_select_handle)
         self.pushButtonSaveCurrent.clicked.connect(self.save_current)
         self.pushButtoSaveAll.clicked.connect(self.save_all)
         self.pushButtonCancelCurrent.clicked.connect(self.cancel_current)
         self.pushButtonCancelAll.clicked.connect(self.cancel_all)
         self.pushButtonAddSetting.clicked.connect(self.add_setting_window.show)
-        self.pushButtonUpdateName.clicked.connect(self.update_setting_name)
+        self.pushButtonUpdateName.clicked.connect(self.show_update_setting_name)
         self.pushButtonDeleteSetting.clicked.connect(self.remove_setting)
         self.pushButtonImportSettings.clicked.connect(self.import_settings)
 
@@ -58,7 +54,7 @@ class SettingSubWindow(QWidget, Ui_SettingSubWindow):
         self.buttonGroupPara3.buttonClicked.connect(self.para3_changed_handle)
         self.buttonGroupPara4.buttonClicked.connect(self.para4_changed_handle)
 
-    def reset_settings(self):
+    def init_settings(self):
         self.original_settings = self.db_driver.get_all_settings()
         self.updated_settings = copy.deepcopy(self.original_settings)
         self.comboBox.clear()
@@ -161,7 +157,8 @@ class SettingSubWindow(QWidget, Ui_SettingSubWindow):
             self.set_input_group_value(para1, para2, para3, para4)
             QMessageBox.critical(self, "参数设置", "已取消修改！")
 
-    def append_setting_in_combo(self, name, default_values):
+    def append_setting_in_combo(self, name_values):
+        [name, default_values] = name_values
         self.comboBox.addItem(name)
         keys = ["para1", "para2", "para3", "para4"]
         self.original_settings[name] = dict(zip(keys, default_values))
@@ -170,11 +167,11 @@ class SettingSubWindow(QWidget, Ui_SettingSubWindow):
         self.comboBox.setCurrentIndex(self.comboBox.count() - 1)
         self.set_input_group_value(*default_values)
 
-    def update_setting_name(self):
+    def show_update_setting_name(self):
         self.update_setting_name_window.set_current_name(self.comboBox.currentText())
         self.update_setting_name_window.show()
 
-    def update_setting_in_combo(self, new_name):
+    def update_setting_name_in_combo(self, new_name):
         current_name = self.comboBox.currentText()
         self.comboBox.setItemText(self.comboBox.currentIndex(), new_name)
         self.original_settings[new_name] = copy.deepcopy(self.original_settings[current_name])
@@ -187,7 +184,7 @@ class SettingSubWindow(QWidget, Ui_SettingSubWindow):
         if reply == QMessageBox.Yes:
             current_name = self.comboBox.currentText()
             self.db_driver.remove_setting(current_name)
-            self.reset_settings()
+            self.init_settings()
 
     def import_settings(self):
         reply = QMessageBox.question(self, "参数设置", "导出前请确认保存已修改的配置！\n是否导出参数配置？", QMessageBox.Yes | QMessageBox.No)
@@ -205,12 +202,14 @@ class SettingSubWindow(QWidget, Ui_SettingSubWindow):
 
         """
         self.db_driver = db_driver
-
+        self.add_setting_window.set_db_driver(db_driver)
+        self.update_setting_name_window.set_db_driver(db_driver)
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     setting_sub_window = SettingSubWindow()
     db_driver = DBDriver("project")  # 新建sqlite数据库驱动
     setting_sub_window.set_db_driver(db_driver)  # 在参数设置子窗口程序中安装sqlite数据库驱动
+    setting_sub_window.init_settings()
     setting_sub_window.show()
     sys.exit(app.exec_())

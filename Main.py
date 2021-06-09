@@ -95,6 +95,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.add_user_window.set_db_driver(db_driver)
         self.update_password_window.set_db_driver(db_driver)
         self.stack_setting.set_db_driver(db_driver)
+        self.stack_setting.init_settings()
         self.stack_running.set_db_driver(db_driver)
 
 
