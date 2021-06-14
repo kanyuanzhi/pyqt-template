@@ -15,7 +15,7 @@ from DBDriver import DBDriver
 
 class MainWindow(QMainWindow, Ui_MainWindow):
     """
-    主界面，负责显示和导航至各功能界面
+    主界面，负责显示和导航至各功能界面，XxxxxxSubWindow
     """
 
     def __init__(self):

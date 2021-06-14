@@ -15,14 +15,19 @@ from DBDriver import DBDriver
 
 
 class RunningSubWindow(QWidget, Ui_RunningSubWindow):
+    """
+    程序运行子界面
+    """
+
     def __init__(self):
         super(RunningSubWindow, self).__init__()
         self.setupUi(self)
 
-        self.load_setting_window = LoadSettingWindow()
+        self.load_setting_window = LoadSettingWindow()  # 加载参数子窗口
         self.setting = {}  # 程序使用参数
 
-        self.load_setting_window.setting.connect(self.set_setting)
+        # 接收从"加载参数"子窗口传回的setting信号，该信号包括选中的参数设置类型
+        self.load_setting_window.setting.connect(self.load_setting)
 
         self.db_driver = None  # 数据库实例，负责各种增删改查操作
         self.queue = queue.Queue()  # 队列，在进程之间传递数据
@@ -33,7 +38,7 @@ class RunningSubWindow(QWidget, Ui_RunningSubWindow):
         self.running_time_thread = None  # 耗时统计线程，用以统计显示进程池运行线程的运行时间
 
         self.pushButtonStart.clicked.connect(self.start)  # 程序开始运行按钮
-        self.pushButtonLoadSetting.clicked.connect(self.show_load_setting_window)
+        self.pushButtonLoadSetting.clicked.connect(self.show_load_setting_window)  # 显示加载参数子窗口
 
     def start(self):
         """
@@ -184,10 +189,23 @@ class RunningSubWindow(QWidget, Ui_RunningSubWindow):
         self.load_setting_window.set_db_driver(db_driver)
 
     def show_load_setting_window(self):
+        """
+        显示加载参数设置子界面
+        Returns:
+
+        """
         self.load_setting_window.init_data()
         self.load_setting_window.show()
 
-    def set_setting(self, setting):
+    def load_setting(self, setting):
+        """
+        加载参数
+        Args:
+            setting: 从加载参数设置子界面接收的信号，包括选中的参数设置类型
+
+        Returns:
+
+        """
         self.setting = setting
         self.labelLoadedSetting.setText("已加载：{}".format(setting["name"]))
 

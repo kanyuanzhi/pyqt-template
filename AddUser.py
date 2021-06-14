@@ -8,6 +8,9 @@ from DBDriver import DBDriver
 
 
 class AddUserWindow(QMainWindow, Ui_AddUserWindow):
+    """
+    添加用户子界面
+    """
     def __init__(self):
         super(AddUserWindow, self).__init__()
         self.setupUi(self)

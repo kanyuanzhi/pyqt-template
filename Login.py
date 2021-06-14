@@ -12,6 +12,9 @@ from DBDriver import DBDriver
 
 
 class LoginWindow(QMainWindow, Ui_LoginWindow):
+    """
+    登录子界面
+    """
     def __init__(self):
         super(LoginWindow, self).__init__()
         self.setupUi(self)

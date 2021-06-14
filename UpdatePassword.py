@@ -6,6 +6,9 @@ from UpdatePasswordWindow import Ui_UpdatePasswordWindow
 
 
 class UpdatePasswordWindow(QMainWindow, Ui_UpdatePasswordWindow):
+    """
+    修改用户密码子界面
+    """
     def __init__(self):
         super(UpdatePasswordWindow, self).__init__()
         self.setupUi(self)

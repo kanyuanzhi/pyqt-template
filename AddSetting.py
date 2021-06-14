@@ -9,7 +9,10 @@ from DBDriver import DBDriver
 
 
 class AddSettingWindow(QMainWindow, Ui_AddSettingWindow):
-    name_values = pyqtSignal(list)
+    """
+    添加新的参数类型子界面
+    """
+    name_values = pyqtSignal(list)  # 新参数类型名称与其各参数初始值组成的信号，格式：[name, [para1_value, para2_value, ...]]
 
     def __init__(self):
         super(AddSettingWindow, self).__init__()
@@ -26,9 +29,9 @@ class AddSettingWindow(QMainWindow, Ui_AddSettingWindow):
         elif self.db_driver.is_setting_name_exist(name):
             QMessageBox.critical(self, "添加新的参数名称", "该参数类型名称已存在！")
         else:
-            default_values = self.db_driver.insert_setting(name)
+            default_values = self.db_driver.insert_setting(name)  # 在数据库中新增参数类型，并返回初始化值
             QMessageBox.information(self, "添加新的参数名称", "新参数类型已创建，请在界面左侧进行参数设置！")
-            self.name_values.emit([name, default_values])
+            self.name_values.emit([name, default_values])  # 数据库新增完毕后发出信号
             self.close()
 
     def set_db_driver(self, db_driver):

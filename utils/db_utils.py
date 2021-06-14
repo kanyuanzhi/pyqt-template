@@ -94,7 +94,16 @@ def get_all_settings(conn):
         conn: 数据库连接
 
     Returns:
-        settings：所有参数设置
+        settings：所有参数设置，格式：
+                 # {"name":{
+                 #   "name":"",
+                 #   "para1":"",
+                 #   "para2":"",
+                 #   "para3":"",
+                 #   "para4":"",
+                 #   ...},
+                 #  "name":{...},
+                 #  ...}
 
     """
     keys = ["name", "para1", "para2", "para3", "para4"]
@@ -123,7 +132,17 @@ def update_all_settings(conn, settings):
 
 
 def insert_setting(conn, name):
-    default_values = [0, 0.0, 1, 1]
+    """
+    新增参数类型
+    Args:
+        conn: 数据库连接
+        name: 参数类型名称
+
+    Returns:
+        default_values: 新增参数类型的初始化值
+
+    """
+    default_values = [0, 0.0, 1, 1]  # 新增参数类型的初始化值
     sql_str = "INSERT INTO parameter_setting (name, para1, para2, para3, para4) VALUES ('{}', '{}', '{}', '{}', '{}')".format(
         name, *default_values)
     conn.execute(sql_str)
